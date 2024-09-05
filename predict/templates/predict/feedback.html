@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="{% static 'predict/assets/css/main.css' %}" />
+</head>
+<body>
+    <div class="container">
+        <h1>Feedback</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Username</th>
+                    <th>Rating</th>
+                    <th>Feedback</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for feedback in user_feedback %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ feedback.username }}</td>
+                    <td>{{ feedback.rating }}</td>
+                    <td>{{ feedback.feedback }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No feedback available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <ul class="actions">
+            <li><a href="{% url 'admin_home' %}" class="button special big">Home</a></li>
+        </ul>
+    </div>
+</body>
+</html>

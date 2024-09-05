@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+{% load static %}
+    <head>
+        <title>Admin Home</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="{% static 'predict/assets/css/main.css' %}" />
+    </head>
+    <body>
+        <header id="header">
+            <h1>Welcome, {{ user.username }}</h1>
+            <nav id="nav">
+                <ul>
+                    <li><a href="{% url 'admin_home' %}">Admin Home</a></li>
+                    <li><a href="{% url 'logoutuser' %}">Logout</a></li>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section id="main" class="wrapper">
+            <div class="container">
+                <header class="major special">
+                    <h2>Admin Home</h2>
+                </header>
+                <!-- Admin content here -->
+                <div class="row uniform">
+                    <div class="12u">
+                        <a href="{% url 'registered_users' %}" class="button special fit large">Registered Users</a>
+                    </div>
+                    <div class="12u">
+                        <a href="{% url 'reports' %}" class="button special fit large">Reports</a>
+                    </div>
+                    <div class="12u">
+                        <a href="{% url 'feedback' %}" class="button special fit large">Feedback</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

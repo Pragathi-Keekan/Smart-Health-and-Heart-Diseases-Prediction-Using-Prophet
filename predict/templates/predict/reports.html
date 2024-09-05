@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <link rel="stylesheet" href="{% static 'predict/assets/css/main.css' %}" />
+</head>
+<body>
+    <div class="container">
+        <h1>Reports</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Username</th>
+                    <th>Disease Predicted</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in disease_reports %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ report.username }}</td>
+                    <td>{{ report.disease_predicted }}</td>
+                    <td><a href="{% url 'view_report' report.id %}" class="button special">View</a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No reports available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <ul class="actions">
+            <li><a href="{% url 'admin_home' %}" class="button special big">Home</a></li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f3e7e9 0%, #e3eeff 100%);
+            margin: 0;
+            padding: 0;
+        }
+
+        .feedback-container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555555;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            color: #333333;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+        }
+
+        .rating input[type="radio"] {
+            display: none;
+        }
+
+        .rating label {
+            font-size: 30px;
+            color: #cccccc;
+            cursor: pointer;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .rating input[type="radio"]:checked ~ label,
+        .rating label:hover,
+        .rating label:hover ~ label {
+            color: #ffcc00; /* Gold color for stars */
+        }
+
+        .rating input[type="radio"]:checked#star5 ~ label,
+        .rating input[type="radio"]:checked#star4 ~ label,
+        .rating input[type="radio"]:checked#star3 ~ label,
+        .rating input[type="radio"]:checked#star2 ~ label,
+        .rating input[type="radio"]:checked#star1 ~ label {
+            color: #ffcc00;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+        }
+
+        .message {
+            display: none;
+            text-align: center;
+            color: #333;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="feedback-container">
+        <h1>Smart Health Prediction Feedback</h1>
+        <form id="feedbackForm" action="{% url 'feed' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="feedback">Feedback:</label>
+                <textarea id="feedback" name="feedback" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating:</label>
+                <div class="rating">
+                    <input type="radio" id="star5" name="rating" value="5">
+                    <label for="star5" class="fas fa-star"></label>
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4" class="fas fa-star"></label>
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3" class="fas fa-star"></label>
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2" class="fas fa-star"></label>
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1" class="fas fa-star"></label>
+                </div>
+            </div>
+            <button type="submit">Submit Feedback</button>
+        </form>
+        <div id="successMessage" class="message">Thank you for your feedback!</div>
+    </div>
+    <script>
+    document.getElementById('feedbackForm').onsubmit = function(event) {
+        event.preventDefault(); // Prevents the form from submitting immediately
+
+        // Show the success message
+        var successMessage = document.getElementById('successMessage');
+        successMessage.style.display = 'block';
+
+        // Redirect after 2 seconds
+        setTimeout(function() {
+            window.location.href = "{% url 'index' %}"; // Redirect to the view named 'index'
+        }, 2000);
+    }
+    </script>
+</body>
+</html>

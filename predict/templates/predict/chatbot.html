@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="{% static 'predict/assets/css/main.css' %}" />
+
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        /* Chat container */
+        .chat-container {
+            width: 350px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        /* Chat header */
+        .chat-header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 2px solid #0056b3;
+        }
+        
+        /* Chat messages */
+        .chat-messages {
+            height: 300px;
+            overflow-y: scroll;
+            padding: 10px;
+        }
+        
+        /* Chat message */
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 80%;
+        }
+        
+        /* User message */
+        .user-message {
+            background-color: #007bff;
+            color: #fff;
+            align-self: flex-end;
+        }
+        
+        /* Bot message */
+        .bot-message {
+            background-color: #f0f0f0;
+            color: #333;
+            align-self: flex-start;
+        }
+        
+        /* Chat input */
+        .chat-input {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-top: 2px solid #0056b3;
+        }
+        
+        /* Input field */
+        .chat-input input[type=text] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        /* Send button */
+        .chat-input button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        /* Send button hover effect */
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Bottom button */
+        .bottom-button {
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        /* Button style */
+        .bottom-button a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        /* Button hover effect */
+        .bottom-button a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            Chatbot
+        </div>
+        <div class="chat-messages" id="chat-box">
+            <div class="chat-message bot-message">
+                <p>Welcome! How can I assist you today?</p>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        <div class="bottom-button">
+            <a href="{% url 'index' %}" class="button special big">Home</a>
+        </div>
+    </div>
+
+    <script>
+        var intents = {{ intents|safe }};
+
+        function sendMessage() {
+            var userInput = document.getElementById("user-input").value;
+            appendUserMessage(userInput);
+            processMessage(userInput);
+            document.getElementById("user-input").value = ''; // Clear input field
+        }
+
+        function appendUserMessage(message) {
+            var chatBox = document.getElementById("chat-box");
+            var userMessage = `<div class="chat-message user-message"><p>${message}</p></div>`;
+            chatBox.innerHTML += userMessage;
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+        }
+
+        function appendBotMessage(message) {
+            var chatBox = document.getElementById("chat-box");
+            var botMessage = `<div class="chat-message bot-message"><p>${message}</p></div>`;
+            chatBox.innerHTML += botMessage;
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+        }
+
+        function processMessage(message) {
+            // Implement logic to process user message and fetch bot response
+            var response = getBotResponse(message);
+            appendBotMessage(response);
+        }
+
+        function getBotResponse(message) {
+            // Implement logic to match message with intents and return appropriate response
+            for (var i = 0; i < intents.length; i++) {
+                var intent = intents[i];
+                for (var j = 0; j < intent.patterns.length; j++) {
+                    var pattern = intent.patterns[j];
+                    if (message.toLowerCase().includes(pattern.toLowerCase())) {
+                        return intent.responses[Math.floor(Math.random() * intent.responses.length)];
+                    }
+                }
+            }
+            return "Sorry, I didn't understand that.";
+        }
+    </script>
+</body>
+</html>

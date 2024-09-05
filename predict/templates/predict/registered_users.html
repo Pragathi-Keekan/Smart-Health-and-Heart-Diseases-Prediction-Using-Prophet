@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Users</title>
+    		<link rel="stylesheet" href="{% static 'predict/assets/css/main.css' %}" />
+</head>
+<body>
+    <div class="container">
+        <h1>Registered Users</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Username</th>
+                    <th>Signup Date</th>
+                    <th>Signup Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in signup_logs %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ log.username }}</td>
+                    <td>{{ log.signup_date }}</td>
+                    <td>{{ log.signup_time }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No users have signed up yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <ul class="actions">
+            <li><a href="{% url 'admin_home' %}" class="button special big">Home</a></li>
+</div>
+</body>
+</html>

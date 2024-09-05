@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'predict/assets/css/main.css' %}" />
+    <title>Disease Prediction</title>
+    <style>
+        .symptom-select {
+            width: 100%; /* Adjust width as needed */
+            height: 150px; /* Set height to show 5 items at a time */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+    </style>
+</head>
+<body>
+    <h1>Disease Prediction</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-field">
+            <label for="{{ form.symptoms.id_for_label }}">Symptoms:</label>
+            <select name="{{ form.symptoms.name }}" id="{{ form.symptoms.id_for_label }}" multiple class="symptom-select">
+                {% for value, label in form.symptoms.field.choices %}
+                    <option value="{{ value }}" {% if value in form.symptoms.value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <button type="submit" class="button special big">Predict</button>
+        <a href="{% url 'index' %}" class="button special big">Home</a>
+    </form>
+
+    {% if results %}
+    <h2>Prediction:</h2>
+    <p>Predicted Disease: {{ results.prediction }}</p>
+
+    <h2>Model Accuracies:</h2>
+    <ul>
+        {% for name, accuracy in accuracies.items %}
+        <li>{{ name }} {{ accuracy|floatformat:4 }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>

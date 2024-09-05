@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'predict/assets/css/main.css' %}" />
+</head>
+<body>
+    <h2>Prediction Result</h2>
+    <div class="result-container">
+        <p><strong>Predicted Disease:</strong> {{ label }}</p>
+        
+        <div class="info">
+            <h3>Model Accuracy</h3>
+            <p><strong>CNN Model Accuracy:</strong> {{ cnn_accuracy }}</p>
+        </div>
+        
+        <div class="info">
+            <h3>Prophet Insights</h3>
+            <p><strong>Forecast Insights:</strong> {{ prophet_insights }}</p>
+        </div>
+    </div>
+
+    <a href="{% url 'index' %}" class="button special big">Home</a>
+</body>
+</html>
